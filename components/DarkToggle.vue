@@ -1,11 +1,21 @@
-<script setup lang='ts'>
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+<script setup lang="ts">
+const color = useColorMode()
+
+useHead({
+  meta: [{
+    id: 'theme-color',
+    name: 'theme-color',
+    content: () => color.value === 'dark' ? '#222222' : '#ffffff',
+  }],
+})
+
+function toggleDark() {
+  color.preference = color.value === 'dark' ? 'light' : 'dark'
+}
 </script>
 
 <template>
-  <button class="!outline-none" @click="toggleDark()">
-    <div v-if="isDark" class="i-carbon-moon" />
-    <div v-else class="i-carbon-sun" />
+  <button class="!outline-none" @click="toggleDark">
+    <div class="i-carbon-sun dark:i-carbon-moon" />
   </button>
 </template>
