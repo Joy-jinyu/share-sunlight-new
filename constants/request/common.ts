@@ -29,7 +29,11 @@ export async function getConfig() {
  * 通过url获取url的内容
  */
 export async function getIframeContent(url: string) {
-  return await use$Fetch.get(url)
+  const { description } = await use$Fetch.get(url)
+  return {
+    description,
+    match: matchHtml(description),
+  }
 }
 
 /**

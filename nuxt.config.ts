@@ -14,8 +14,7 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
   ],
   pinia: {
-    // is Autoimport ./stores/**
-    // storeDirs: [],
+    autoImports: ['defineStore', 'definePiniaStore'],
   },
   vant: {
     lazyload: true,
@@ -24,11 +23,13 @@ export default defineNuxtConfig({
   plugins: [
     // mode: client客户端 server服务端 不加就是默认两端都有
   ],
+  features: {
+    inlineStyles: false,
+  },
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
     // but missing on offline, disabling extraction it until fixed
     payloadExtraction: false,
-    inlineSSRStyles: false,
     renderJsonPayloads: true,
     typedPages: true,
   },
@@ -39,6 +40,7 @@ export default defineNuxtConfig({
     // https://unocss.dev/guide/style-reset
     // https://tailwindcss.com/docs/customizing-colors
     '@unocss/reset/tailwind.css',
+    '~/assets/iconfont/iconfont.css',
   ],
 
   colorMode: {
@@ -70,14 +72,8 @@ export default defineNuxtConfig({
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
         { rel: 'icon', type: 'image/svg+xml', href: '/nuxt.svg' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-        { rel: 'stylesheet', href: './assets/iconfont/iconfont.css' },
       ],
-      script: [
-        {
-          src: './assets/iconfont/iconfont.js',
-          type: 'text/javascript',
-        },
-      ],
+      script: [],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: appDescription },

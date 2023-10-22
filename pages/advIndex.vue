@@ -26,7 +26,7 @@ if (!data.value?.length) {
 
 onMounted(async () => {
   await getConfig()
-  await useNbClientAuthorize()
+  // await useNbClientAuthorize()
 })
 </script>
 

@@ -1,4 +1,4 @@
-import { useThemeStore } from '~/stores/index'
+import { useThemeStore } from '~/stores'
 
 export default defineNuxtPlugin({
   name: 'nuxtServerInit',

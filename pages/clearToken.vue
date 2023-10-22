@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
 import { useNbCookie } from '~/composables/cookie'
 import { useNbRouter } from '~/composables/route'
 import { cookieKeys } from '~/constants/common'
+import { useBaseStore } from '~/stores/base'
 
 const { router, query } = useNbRouter()
 const { cookie, clearCookie } = useNbCookie(cookieKeys)
+const baseStore = useBaseStore()
 
 const data = reactive({
   href: '',
   page: '',
-  params: '',
+  key: '',
+  value: '',
 })
 
 function clearLogin() {
@@ -21,6 +26,13 @@ function clearAuth() {
 }
 
 function set() {
+  const { key, value } = toRaw(data)
+  if (key && value) {
+    cookie[key].value = value
+    baseStore.addCookie({ key, value })
+    return
+  }
+
   cookie.token.value = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnQiOiIxMzEiLCJ0b2tlbl90eXBlIjoidG9rZW4iLCJ1c2VyTmFtZSI6IueOi-iJuumUpiIsInVzZXJJZCI6IjM0NjkzNTgxNTEyNzY5NTgiLCJ1c2VyIjoiMzAwIiwiYWNjb3VudCI6IjM0NjkzNTgxNTEyNzY5NTkiLCJpYXQiOjE2OTc4NjI0OTcsIm5iZiI6MTY5Nzg2MjQ5NywiZXhwIjoxNjk4NDY3Mjk3fQ.GM25m699e-_86slCigTuMidOk5G89CPzULc861mhOAg'
   cookie.wechatInfoId.value = '2c908424857b541501857fb05970003a'
   cookie.unionid.value = 'o0R6H5oGwAVkHgkA3KBazr89OedU'
@@ -29,14 +41,14 @@ function set() {
 }
 
 function goLink() {
-  const { href, page, params } = toRaw(data)
+  const { href, page, value } = toRaw(data)
   if (href) {
     router.push(href)
   }
   else if (page) {
     router.push({
       name: page as any,
-      params,
+      params: value,
     })
   }
 }
@@ -73,7 +85,8 @@ function goLink() {
         placeholder="链接" :clearable="true"
       />
       <van-field v-model="data.page" placeholder="页面" :clearable="true" />
-      <van-field v-model="data.params" placeholder="参数" :clearable="true" />
+      <van-field v-model="data.key" placeholder="属性" :clearable="true" />
+      <van-field v-model="data.value" placeholder="值" :clearable="true" />
       <van-button
         class="costumer-btn"
         block

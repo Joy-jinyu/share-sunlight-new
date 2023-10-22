@@ -16,7 +16,7 @@
   "dependencies": {
     "log4js": "^6.9.1",
     "qs": "^6.11.2",
-    "vant": "^4.7.1",
+    "vant": "^4.9.3",
     "vconsole": "^3.15.1"
   },
   "devDependencies": {
@@ -27,9 +27,9 @@
     "@nuxtjs/color-mode": "^3.3.0",
     "@pinia/nuxt": "^0.4.11",
     "@types/qs": "^6.9.9",
-    "@unocss/eslint-config": "^0.56.4",
-    "@unocss/nuxt": "^0.56.4",
-    "@vant/nuxt": "^1.0.3",
+    "@unocss/eslint-config": "^0.61.5",
+    "@unocss/nuxt": "^0.61.5",
+    "@vant/nuxt": "^1.0.5",
     "@vite-pwa/nuxt": "^0.1.1",
     "@vueuse/nuxt": "^10.4.1",
     "consola": "^3.2.3",
