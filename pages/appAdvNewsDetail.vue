@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getAdvisorInfo, getNewsDetail } from '~/constants'
+import { getPreHandleSource } from '~/utils/common'
 import { hideWxShare } from '~/utils/wx'
 
 interface Detail {
@@ -17,6 +18,22 @@ await useAsyncData('auth', () => useNbServerAuthorize())
 
 const { data: detailData } = await useAsyncData('detail', () => getNewsDetail())
 
+function getHeadInfo() {
+  const { detail: _detail, richText: _richText } = unref<any>(detailData)
+  const imgs: string[] = _richText?.match?.imgs
+
+  return {
+    title: _detail?.title || '资讯文章',
+    link: getPreHandleSource({
+      imgs: imgs.slice(0, 2),
+    }),
+  }
+}
+
+useHead({
+  ...getHeadInfo(),
+})
+
 onMounted(async () => {
   hideWxShare()
   const { code: detailCode, detail: _detail, richText: _richText } = unref<any>(detailData)
@@ -32,10 +49,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section>
+  <section flex flex-col min-h-screen>
     <div
       border-rounded-lg
       class="bg-gradient-linear bg-gradient-shape-[270deg] from-#e7ebff  to-#f5f9fc"
+      flex-initial
     >
       <div p-4>
         <img
@@ -74,18 +92,23 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <h1 mt-4 font-bold text-dark-8 font-size-lg>
-      {{ detail?.title }}
-    </h1>
-    <p mt-2 text-gray font-size-xs>
-      <span>{{ detail?.author }}</span>
-      <span>|</span>
-      <span>{{ detail?.timePublished }}</span>
-    </p>
-    <p mt-2 text-gray font-size-sm>
-      {{ detail?.summary }}
-    </p>
-    <div mt-4 v-html="richText?.description" />
+    <div mt-4 relative flex-1>
+      <template v-if="richText?.description">
+        <h1 font-bold text-dark-8 font-size-lg>
+          {{ detail?.title }}
+        </h1>
+        <p mt-2 text-gray font-size-xs>
+          <span>{{ detail?.author }}</span>
+          <span>|</span>
+          <span>{{ detail?.timePublished }}</span>
+        </p>
+        <p mt-2 text-gray font-size-sm>
+          {{ detail?.summary }}
+        </p>
+        <div mt-4 v-html="richText?.description" />
+      </template>
+      <PageLoading v-else />
+    </div>
   </section>
 </template>
 
