@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-
 import { useNbCookie } from '~/composables/cookie'
 import { useNbRouter } from '~/composables/route'
 import { cookieKeys } from '~/constants/common'
 import { useBaseStore } from '~/stores/base'
+import { Login } from '~/constants'
 
 const { router, query } = useNbRouter()
 const { cookie, clearCookie } = useNbCookie(cookieKeys)
@@ -25,19 +24,20 @@ function clearAuth() {
   clearCookie()
 }
 
-function set() {
+async function set() {
   const { key, value } = toRaw(data)
   if (key && value) {
     cookie[key].value = value
     baseStore.addCookie({ key, value })
     return
   }
-
-  cookie.token.value = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnQiOiIxMzEiLCJ0b2tlbl90eXBlIjoidG9rZW4iLCJ1c2VyTmFtZSI6IueOi-iJuumUpiIsInVzZXJJZCI6IjM0NjkzNTgxNTEyNzY5NTgiLCJ1c2VyIjoiMzAwIiwiYWNjb3VudCI6IjM0NjkzNTgxNTEyNzY5NTkiLCJpYXQiOjE2OTc4NjI0OTcsIm5iZiI6MTY5Nzg2MjQ5NywiZXhwIjoxNjk4NDY3Mjk3fQ.GM25m699e-_86slCigTuMidOk5G89CPzULc861mhOAg'
-  cookie.wechatInfoId.value = '2c908424857b541501857fb05970003a'
+  const { accessToken, user } = await Login({
+    email: 'joy.wyj@gmail.com',
+    password: '0'
+  })
+  cookie.token.value = accessToken
   cookie.unionid.value = 'o0R6H5oGwAVkHgkA3KBazr89OedU'
   cookie.openid.value = 'okjN06KYunkJHzjAan7GFQtQyx6U'
-  cookie.openToken.value = '0dd87aca-724d-43e0-82d7-9147a0c8f5a0'
 }
 
 function goLink() {

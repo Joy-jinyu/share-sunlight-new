@@ -1,7 +1,9 @@
 // const baseUrl = 'https://fuguo-dev-admin.newtamp.cn' // 富国开发环境
-const baseUrl = 'https://xindaaoya-dev-admin.newtamp.cn' // 信达澳亚
+// const baseUrl = 'https://xindaaoya-dev-admin.newtamp.cn' // 
+const baseUrl = 'http://localhost:14047'
 
 const serviceList = [
+  'v1',
   'mns',
   'marketing-product',
   'marketing-fund',

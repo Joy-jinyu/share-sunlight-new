@@ -1,9 +1,9 @@
-import { useThemeStore } from '~/stores'
+import { useGlobalStore } from '~/stores'
 
 export default defineNuxtPlugin({
   name: 'nuxtServerInit',
   async setup() {
-    const store = useThemeStore()
-    store.initColor()
+    const store = useGlobalStore()
+    store.initConfig()
   },
 })

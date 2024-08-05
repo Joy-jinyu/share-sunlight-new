@@ -1,10 +1,10 @@
-import { MARKETING_GET_SIGNATURE, UC_CONFIG_FIND_BY_TYPE, UC_USER_CARD } from '../api'
+import { LOGIN, MARKETING_GET_SIGNATURE, UC_CONFIG_FIND_BY_TYPE, UC_USER_CARD } from '../api'
 
 /**
  * 获取项目基础配置
  */
 export async function getConfig() {
-  const { data } = await use$Fetch.get(UC_CONFIG_FIND_BY_TYPE)
+  const data = await use$Fetch.get(UC_CONFIG_FIND_BY_TYPE)
 
   let { staff: channelInfo, enterprise: entInfo, user_grade: userGrade } = data || {}
 
@@ -57,6 +57,20 @@ export async function getWechatAuthUrl({
 
 export async function getAdvisorInfo() {
   return await use$Fetch.get(UC_USER_CARD, {
+    isCheckToken: false,
+  })
+}
+
+export const Login = async (data: {
+  // joy.wyj@gmail.com
+  email: string;
+  // '0'
+  password: string;
+}) => {
+  return await use$Fetch.post(LOGIN, {
+    body: {
+      ...data
+    },
     isCheckToken: false,
   })
 }
