@@ -16,16 +16,14 @@ export const useGlobalStore = defineStore('theme', () => {
     userGrade: undefined,
   })
   const initConfig = async () => {
-    console.log(config.value.entInfo?.theme, 'good prev')
     if (!config.value.channelInfo) {
       const data = await getConfig()
       config.value = data
-      console.log(config.value.entInfo?.theme, 'good idea')
     }
+    return config.value
   }
 
   const color = computed(() => {
-    console.log(config.value)
     return config.value.entInfo?.theme || 'red'
   })
 

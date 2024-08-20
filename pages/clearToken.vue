@@ -3,7 +3,12 @@ import { useNbCookie } from '~/composables/cookie'
 import { useNbRouter } from '~/composables/route'
 import { cookieKeys } from '~/constants/common'
 import { useBaseStore } from '~/stores/base'
-import { Login } from '~/constants'
+import { Login, getConfig } from '~/constants'
+import { useGlobalStore } from '~/stores/index'
+
+const store = useGlobalStore()
+await useAsyncData('layout_default', () => store.initConfig())
+// await useAsyncData('layout_default', getConfig)
 
 const { router, query } = useNbRouter()
 const { cookie, clearCookie } = useNbCookie(cookieKeys)
@@ -33,11 +38,12 @@ async function set() {
   }
   const { accessToken, user } = await Login({
     email: 'joy.wyj@gmail.com',
-    password: '0'
+    password: '0',
   })
   cookie.token.value = accessToken
   cookie.unionid.value = 'o0R6H5oGwAVkHgkA3KBazr89OedU'
   cookie.openid.value = 'okjN06KYunkJHzjAan7GFQtQyx6U'
+  sessionStorage.setItem('user', user)
 }
 
 function goLink() {
@@ -56,7 +62,10 @@ function goLink() {
 
 <template>
   <section class="basicInf-box">
-    <van-button
+    <div class="costumer-btn">
+      清除登录 {{ store.color }}
+    </div>
+    <!-- <van-button
       class="costumer-btn"
       block
       @click="clearLogin"
@@ -94,7 +103,7 @@ function goLink() {
       >
         跳转链接
       </van-button>
-    </template>
+    </template> -->
   </section>
 </template>
 

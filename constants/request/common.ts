@@ -61,15 +61,15 @@ export async function getAdvisorInfo() {
   })
 }
 
-export const Login = async (data: {
+export async function Login(data: {
   // joy.wyj@gmail.com
-  email: string;
+  email: string
   // '0'
-  password: string;
-}) => {
+  password: string
+}) {
   return await use$Fetch.post(LOGIN, {
     body: {
-      ...data
+      ...data,
     },
     isCheckToken: false,
   })
